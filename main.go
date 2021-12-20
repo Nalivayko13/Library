@@ -2,7 +2,9 @@ package main
 
 import (
 "database/sql"
-//"database/sql"
+	"time"
+
+	//"database/sql"
 "fmt"
 _ "github.com/go-sql-driver/mysql"
 "github.com/gorilla/mux"
@@ -11,7 +13,8 @@ _ "github.com/go-sql-driver/mysql"
 )
 
 func main(){
-
+	dt := time.Now()
+	fmt.Println("Current date and time is: ", dt.String())
 	r := mux.NewRouter()
 	r.HandleFunc("/home", Home)
 	r.HandleFunc("/addbook", AddBook)
@@ -43,6 +46,7 @@ func Home(w http.ResponseWriter,r *http.Request){
 	if err!=nil{
 		panic(err)
 	}
+	AllBooks = []Book{}
 	for res.Next(){
 		var book Book
 		err = res.Scan(&book.Id, &book.Name,&book.Genre, &book.Price_of_book, &book.Num_of_copies, &book.Authors, &book.Cover_photo, &book.Price_of_book,&book.Reg_date)

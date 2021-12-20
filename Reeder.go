@@ -78,6 +78,7 @@ func GetReeders(w http.ResponseWriter,r *http.Request){
 	if err!=nil{
 		panic(err)
 	}
+	AllReeders = []Reeder{}
 	for res.Next(){
 		var reeder Reeder
 		err = res.Scan(&reeder.Id, &reeder.Name,&reeder.Surname, &reeder.DateOfBirth, &reeder.Address, &reeder.Email)

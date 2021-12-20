@@ -8,6 +8,7 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 type Book struct {
@@ -46,7 +47,7 @@ func SaveBook(w http.ResponseWriter, r *http.Request){
 	book.Authors=r.FormValue("authors")
 	book.Num_of_copies=r.FormValue("num_of_copies")
 	book.Price_per_day=r.FormValue("price_per_day")
-	book.Reg_date=r.FormValue("reg_date")
+	book.Reg_date=time.Now().Format("01-02-2006")
 	book.Price_of_book=r.FormValue("price_of_book")
 
 	_,err1:=strconv.Atoi(book.Price_of_book)
@@ -58,7 +59,7 @@ func SaveBook(w http.ResponseWriter, r *http.Request){
 	}
 	if err1==nil && err2==nil && err3==nil{
 
-		s := fmt.Sprintf("INSERT INTO `books` (`name`,`genre`,`price_of_book`) VALUES ('%s', '%s', '%s')", book.Name, book.Genre, book.Price_of_book)
+		s := fmt.Sprintf("INSERT INTO `books` (`name`,`genre`,`price_of_book`,`num_of_copies`,`authors`, `price_per_day`,`reg_date`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", book.Name, book.Genre, book.Price_of_book, book.Num_of_copies,book.Authors,book.Price_per_day,book.Reg_date)
 		fmt.Println(s)
 		insert, err1 := db.Query(s)
 		if err1 != nil {
