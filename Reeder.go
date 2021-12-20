@@ -12,8 +12,8 @@ import (
 
 )
 type Reeder struct {
-	Id int `json:"id"`
-	Name string `json:"name"`
+	IdReeder int `json:"id_reeder"`
+Name string `json:"name"`
 	Surname string `json:"surname"`
 	DateOfBirth string `json:"date_of_birth"`
 	Address string `json:"address"`
@@ -81,7 +81,7 @@ func GetReeders(w http.ResponseWriter,r *http.Request){
 	AllReeders = []Reeder{}
 	for res.Next(){
 		var reeder Reeder
-		err = res.Scan(&reeder.Id, &reeder.Name,&reeder.Surname, &reeder.DateOfBirth, &reeder.Address, &reeder.Email)
+		err = res.Scan(&reeder.Name,&reeder.Surname, &reeder.DateOfBirth, &reeder.Address, &reeder.Email)
 		if err!=nil{
 			panic(err)
 		}
