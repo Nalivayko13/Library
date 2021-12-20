@@ -39,7 +39,7 @@ func SaveReeder(w http.ResponseWriter, r *http.Request){
 
 
 	if reeder.Name=="" || reeder.Surname=="" || reeder.DateOfBirth=="" || reeder.Email=="" ||reeder.Address=="" {
-		fmt.Fprintf(w,"enter data")
+		fmt.Fprintf(w,"!!enter data")
 	}
 	s := fmt.Sprintf("INSERT INTO `reeders` (`name`,`surname`,`date_of_birth`, `address`, `email`) VALUES ('%s', '%s', '%s', '%s', '%s')", reeder.Name, reeder.Surname,reeder.DateOfBirth,reeder.Address,reeder.Email)
 	fmt.Println(s)
@@ -81,7 +81,7 @@ func GetReeders(w http.ResponseWriter,r *http.Request){
 	AllReeders = []Reeder{}
 	for res.Next(){
 		var reeder Reeder
-		err = res.Scan(&reeder.Name,&reeder.Surname, &reeder.DateOfBirth, &reeder.Address, &reeder.Email)
+		err = res.Scan(&reeder.IdReeder,&reeder.Name,&reeder.Surname, &reeder.DateOfBirth, &reeder.Address, &reeder.Email)
 		if err!=nil{
 			panic(err)
 		}

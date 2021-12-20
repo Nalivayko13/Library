@@ -49,7 +49,7 @@ func Home(w http.ResponseWriter,r *http.Request){
 	AllBooks = []Book{}
 	for res.Next(){
 		var book Book
-		err = res.Scan(&book.Id, &book.Name,&book.Genre, &book.Price_of_book, &book.Num_of_copies, &book.Authors, &book.Cover_photo, &book.Price_of_book,&book.Reg_date)
+		err = res.Scan(&book.IdBook, &book.Name,&book.Genre, &book.Price_of_book, &book.Num_of_copies, &book.Authors, &book.Cover_photo, &book.Price_of_book,&book.Reg_date)
 		if err!=nil{
 			panic(err)
 		}

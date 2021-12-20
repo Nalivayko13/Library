@@ -70,7 +70,7 @@ func SaveBook(w http.ResponseWriter, r *http.Request){
 		defer insert.Close()
 		http.Redirect(w,r,"/successful",http.StatusSeeOther)
 	}else {
-		fmt.Fprintf(w,"incorrect data")
+		fmt.Fprintf(w," or data is incorrect")
 	}
 	http.Redirect(w,r,"/home",http.StatusSeeOther)
 }
