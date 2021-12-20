@@ -19,6 +19,7 @@ func main(){
 	r.HandleFunc("/successful",Successful_book_reg)
 	r.HandleFunc("/addreeder",AddReeder)
 	r.HandleFunc("/reeders",GetReeders)
+	r.HandleFunc("/save_reeder",SaveReeder)
 
 	//http.Handle("/", r)
 	http.ListenAndServe("127.0.0.1:8080", r)
