@@ -1,11 +1,11 @@
-package main
+package Model
 
 import (
-	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/gorilla/mux"
 	"html/template"
+	"library/dao"
 	"net/http"
 	"strconv"
 	"time"
@@ -23,25 +23,22 @@ type Book struct {
 	Reg_date string `json:"reg_date"`
 }
 
-var AllBooks = []Book{}
+var AllBooks = []dao.Book{}
 
-func Successful_book_reg(w http.ResponseWriter, r *http.Request){
-	t, err:=template.ParseFiles("template/successful.html")
+func Home(w http.ResponseWriter,r *http.Request){
+	t, err:=template.ParseFiles("template/home.html")
 	if err!=nil{
 		fmt.Fprintf(w,err.Error())
 	}
-	t.Execute(w,nil)
+	AllBooks = []dao.Book{}
+	dao.Get_books_fronDB(&AllBooks)
+	t.Execute(w,AllBooks)
 
 }
 
 func SaveBook(w http.ResponseWriter, r *http.Request){
-	db, err :=sql.Open("mysql","root:@tcp(127.0.0.1:3306)/library")
-	if err!=nil {
-		panic(err)
-	}
-	defer db.Close()
 
-	var book Book
+	var book dao.Book
 	book.Name=r.FormValue("name")
 	book.Genre=r.FormValue("genre")
 	book.Authors=r.FormValue("authors")
@@ -51,28 +48,24 @@ func SaveBook(w http.ResponseWriter, r *http.Request){
 	book.Price_of_book=r.FormValue("price_of_book")
 
 	_,err1:=strconv.Atoi(book.Price_of_book)
+	if err1!=nil{
+		fmt.Fprintf(w," or data is incorrect")
+	}
 	_,err2:=strconv.Atoi(book.Price_per_day)
+	if err2!=nil{
+		fmt.Fprintf(w," or data is incorrect")
+	}
 	_,err3:=strconv.Atoi(book.Num_of_copies)
+	if err3!=nil{
+		fmt.Fprintf(w," or data is incorrect")
+	}
 
 	if book.Name=="" || book.Price_of_book=="" || book.Price_per_day=="" || book.Num_of_copies=="" || book.Reg_date=="" || book.Genre=="" || book.Authors==""{
 		fmt.Fprintf(w,"enter data")
 	}
-	if err1==nil && err2==nil && err3==nil{
+	dao.Save_book_toDB(book)
+	http.Redirect(w,r,"/successful",http.StatusSeeOther)
 
-		s := fmt.Sprintf("INSERT INTO `books` (`name`,`genre`,`price_of_book`,`num_of_copies`,`authors`, `price_per_day`,`reg_date`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", book.Name, book.Genre, book.Price_of_book, book.Num_of_copies,book.Authors,book.Price_per_day,book.Reg_date)
-		fmt.Println(s)
-		insert, err1 := db.Query(s)
-		if err1 != nil {
-			panic(err1)
-		}
-
-		fmt.Println(insert)
-		defer insert.Close()
-		http.Redirect(w,r,"/successful",http.StatusSeeOther)
-	}else {
-		fmt.Fprintf(w," or data is incorrect")
-	}
-	http.Redirect(w,r,"/home",http.StatusSeeOther)
 }
 
 func AddBook(w http.ResponseWriter, r *http.Request){
