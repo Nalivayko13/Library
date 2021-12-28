@@ -22,6 +22,8 @@ func main(){
 	r.HandleFunc("/save_reeder", Controller.SaveReeder)
 	r.HandleFunc("/give_book", Controller.GiveBook)
 	r.HandleFunc("/save_rent", Controller.SaveRent)
+	r.HandleFunc("/returnbook", Controller.ReturnBook)
+	r.HandleFunc("/complete_rent", Controller.CompleteRent)
 
 
 	http.ListenAndServe("127.0.0.1:8080", r)
