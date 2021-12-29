@@ -44,6 +44,5 @@ func SaveBook(book *dao.Book){
 func Home(AllBooks []dao.Book) []dao.Book {
 	AllBooks = []dao.Book{}
 	dao.Get_books_fronDB(&AllBooks)
-	log.Println(AllBooks)
 	return AllBooks
 }

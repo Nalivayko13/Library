@@ -19,7 +19,6 @@ func Successful_book_reg(w http.ResponseWriter, r *http.Request){
 }
 func EnterDataController(w http.ResponseWriter, r *http.Request){
 	fmt.Println(w,"Enter data")
-
 }
 
 func SaveBookController(w http.ResponseWriter, r *http.Request){

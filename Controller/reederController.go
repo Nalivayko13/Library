@@ -3,6 +3,7 @@ package Controller
 import (
 	"fmt"
 	"html/template"
+	"library/Model"
 	"library/dao"
 	"net/http"
 
@@ -16,32 +17,24 @@ func AddReederController(w http.ResponseWriter,r *http.Request){
 	t.Execute(w,nil)
 }
 
-
-
-
-
 func SaveReederController(w http.ResponseWriter, r *http.Request){
-var reeder dao.Reeder
-reeder.Name=r.FormValue("name")
-reeder.Surname=r.FormValue("surname")
-reeder.DateOfBirth=r.FormValue("date_of_birth")
-reeder.Email=r.FormValue("email")
-reeder.Address=r.FormValue("address")
-if reeder.Name=="" || reeder.Surname=="" || reeder.DateOfBirth=="" || reeder.Email=="" ||reeder.Address=="" {
-fmt.Fprintf(w,"!!enter data")
+	var reeder dao.Reeder
+	reeder.Name=r.FormValue("name")
+	reeder.Surname=r.FormValue("surname")
+	reeder.DateOfBirth=r.FormValue("date_of_birth")
+	reeder.Email=r.FormValue("email")
+	reeder.Address=r.FormValue("address")
+	Model.SaveReeder(&reeder)
+	http.Redirect(w,r,"/successful",http.StatusSeeOther)
 }
-dao.Save_reeder_toDB(reeder)
-http.Redirect(w,r,"/successful",http.StatusSeeOther)
 
-}
 var AllReeders=[]dao.Reeder{}
 func GetReedersController(w http.ResponseWriter,r *http.Request){
 	t, err:=template.ParseFiles("template/reeders.html")
 	if err!=nil{
 		fmt.Fprintf(w,err.Error())
 	}
-	AllReeders = []dao.Reeder{}
-	dao.Get_reeders_fronDB(&AllReeders)
+	AllReeders = Model.GetReeders(AllReeders)
 	t.Execute(w, AllReeders)
 
 }
