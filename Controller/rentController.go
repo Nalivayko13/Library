@@ -18,7 +18,7 @@ func GiveBook(w http.ResponseWriter, r *http.Request){
 
 }
 
-func SaveRent(w http.ResponseWriter, r *http.Request){
+func SaveRentController(w http.ResponseWriter, r *http.Request){
 	//fmt.Fprintf(w,"click save_rent")
 	var rent dao.Rent
 	rent.Id_reeder=r.FormValue("id_reeder")
@@ -35,14 +35,14 @@ func SaveRent(w http.ResponseWriter, r *http.Request){
 	http.Redirect(w,r,"/successful",http.StatusSeeOther)
 }
 
-func ReturnBook(w http.ResponseWriter, r *http.Request)  {
+func ReturnBookController(w http.ResponseWriter, r *http.Request)  {
 	t, err:=template.ParseFiles("template/returnbook.html")
 	if err!=nil{
 		fmt.Fprintf(w,err.Error())
 	}
 	t.Execute(w,nil)
 }
-func CompleteRent(w http.ResponseWriter,r *http.Request) {
+func CompleteRentController(w http.ResponseWriter,r *http.Request) {
 	var rent dao.Rent
 	rent.Id_rent=r.FormValue("id_rent")
 	dao.Complete_rent_toDB(rent)

@@ -8,7 +8,7 @@ import (
 
 )
 
-func AddReeder(w http.ResponseWriter,r *http.Request){
+func AddReederController(w http.ResponseWriter,r *http.Request){
 	t, err:=template.ParseFiles("template/addreeder.html")
 	if err!=nil{
 		fmt.Fprintf(w,err.Error())
@@ -20,7 +20,7 @@ func AddReeder(w http.ResponseWriter,r *http.Request){
 
 
 
-func SaveReeder(w http.ResponseWriter, r *http.Request){
+func SaveReederController(w http.ResponseWriter, r *http.Request){
 var reeder dao.Reeder
 reeder.Name=r.FormValue("name")
 reeder.Surname=r.FormValue("surname")
@@ -35,7 +35,7 @@ http.Redirect(w,r,"/successful",http.StatusSeeOther)
 
 }
 var AllReeders=[]dao.Reeder{}
-func GetReeders(w http.ResponseWriter,r *http.Request){
+func GetReedersController(w http.ResponseWriter,r *http.Request){
 	t, err:=template.ParseFiles("template/reeders.html")
 	if err!=nil{
 		fmt.Fprintf(w,err.Error())

@@ -5,7 +5,19 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/gorilla/mux"
+	"log"
 )
+
+func openDB() *sql.DB {
+	db, err :=sql.Open("mysql","root:@tcp(127.0.0.1:3306)/library")
+	if err!=nil {
+		log.Fatal(err)
+	}
+	if err = db.Ping(); err != nil {
+		return nil
+	}
+	return db
+}
 type Book struct {
 	IdBook int `json:"id_book"`
 	Name string `json:"name"`
@@ -20,12 +32,8 @@ type Book struct {
 func Save_book_toDB(Mbook Book){
 	var book Book
 	book=Mbook
-	db, err :=sql.Open("mysql","root:@tcp(127.0.0.1:3306)/library")
-	if err!=nil {
-		panic(err)
-	}
+	db := openDB()
 	defer db.Close()
-
 	s := fmt.Sprintf("INSERT INTO `books` (`name`,`genre`,`price_of_book`,`num_of_copies`,`authors`, `price_per_day`,`reg_date`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", book.Name, book.Genre, book.Price_of_book, book.Num_of_copies,book.Authors,book.Price_per_day,book.Reg_date)
 	fmt.Println(s)
 	insert, err1 := db.Query(s)
@@ -38,10 +46,7 @@ func Save_book_toDB(Mbook Book){
 }
 
 func Get_books_fronDB(AllBooks *[]Book){
-	db, err :=sql.Open("mysql","root:@tcp(127.0.0.1:3306)/library")
-	if err!=nil {
-		panic(err)
-	}
+	db := openDB()
 	defer db.Close()
 	res,err:=db.Query("SELECT * FROM `books`")
 	if err!=nil{
@@ -53,6 +58,6 @@ func Get_books_fronDB(AllBooks *[]Book){
 		if err!=nil{
 			panic(err)
 		}
-		*AllBooks = append(*AllBooks, book)
+		*AllBooks = append (*AllBooks, book)
 	}
 }

@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/gorilla/mux"
@@ -15,10 +14,7 @@ type Reeder struct {
 	Email string `json:"email"`
 }
 func Save_reeder_toDB(reeder Reeder){
-	db, err :=sql.Open("mysql","root:@tcp(127.0.0.1:3306)/library")
-	if err!=nil {
-		panic(err)
-	}
+	db := openDB()
 	defer db.Close()
 
 	s := fmt.Sprintf("INSERT INTO `reeders` (`name`,`surname`,`date_of_birth`, `address`, `email`) VALUES ('%s', '%s', '%s', '%s', '%s')", reeder.Name, reeder.Surname,reeder.DateOfBirth,reeder.Address,reeder.Email)
@@ -33,10 +29,7 @@ func Save_reeder_toDB(reeder Reeder){
 
 }
 func Get_reeders_fronDB(AllReeders *[]Reeder){
-	db, err :=sql.Open("mysql","root:@tcp(127.0.0.1:3306)/library")
-	if err!=nil {
-		panic(err)
-	}
+	db := openDB()
 	defer db.Close()
 	res,err:=db.Query("SELECT * FROM `reeders`")
 	if err!=nil{
