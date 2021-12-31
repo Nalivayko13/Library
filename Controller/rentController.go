@@ -18,7 +18,6 @@ func GiveBook(w http.ResponseWriter, r *http.Request){
 	t.Execute(w,nil)
 
 }
-
 func SaveRentController(w http.ResponseWriter, r *http.Request){
 	var rent dao.Rent
 	rent.Id_reeder=r.FormValue("id_reeder")
@@ -41,7 +40,6 @@ func ReturnBookController(w http.ResponseWriter, r *http.Request)  {
 func CompleteRentController(w http.ResponseWriter,r *http.Request) {
 	var rent dao.Rent
 	rent.Id_rent=r.FormValue("id_rent")
-
 	Model.CompleteRent(rent)
 	http.Redirect(w,r,"/successful",http.StatusSeeOther)
 }

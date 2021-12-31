@@ -2,6 +2,7 @@ package dao
 
 import (
 	"fmt"
+	"log"
 )
 
 type Rent struct {
@@ -33,13 +34,27 @@ func Complete_rent_toDB(rent Rent){
 	db := openDB()
 	defer db.Close()
 
-	s := fmt.Sprintf("UPDATE `rent` SET `completed` = 'completed' WHERE `id_rent` = '%s'",rent.Id_rent)
-	fmt.Println(s)
+	s := fmt.Sprintf("UPDATE `rent` SET `completed` = 'completed',`fine` = '%s' WHERE `id_rent` = '%s'",rent.Fine,rent.Id_rent)
+	log.Println(s)
 	insert, err1 := db.Query(s)
 	if err1 != nil {
 		panic(err1)
 	}
-
-	fmt.Println(insert)
 	defer insert.Close()
+}
+func Get_rent_byId(rent *Rent){
+	db:=openDB()
+	defer db.Close()
+	s := fmt.Sprintf("SELECT `id_book`,`id_reeder`,`first_date`,`last_date` FROM `rent` WHERE `id_rent` = '%s'", rent.Id_rent)
+	res,err:=db.Query(s)
+	if err!=nil{
+		panic(err)
+	}
+
+	for res.Next(){
+		err = res.Scan(&rent.Id_book,&rent.Id_reeder,&rent.First_date,&rent.Last_date)
+		if err!=nil{
+			panic(err)
+		}
+	}
 }

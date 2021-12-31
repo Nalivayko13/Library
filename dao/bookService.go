@@ -49,3 +49,22 @@ func Get_books_fronDB(AllBooks *[]Book){
 		*AllBooks = append (*AllBooks, book)
 	}
 }
+
+func Get_priceOfbook_byId(idBook string) string {
+	db:=openDB()
+	defer db.Close()
+	s := fmt.Sprintf("SELECT `price_per_day` FROM `books` WHERE `id_book` = '%s'", idBook)
+	res,err:=db.Query(s)
+	if err!=nil{
+		panic(err)
+	}
+	pricePerDay:=""
+	for res.Next(){
+		err = res.Scan(&pricePerDay)
+		if err!=nil{
+			panic(err)
+		}
+	}
+	fmt.Println("price per day is ", pricePerDay)
+	return pricePerDay
+}
