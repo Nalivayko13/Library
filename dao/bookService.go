@@ -1,23 +1,11 @@
 package dao
 
 import (
-	"database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/gorilla/mux"
-	"log"
 )
 
-func openDB() *sql.DB {
-	db, err :=sql.Open("mysql","root:@tcp(127.0.0.1:3306)/library")
-	if err!=nil {
-		log.Fatal(err)
-	}
-	if err = db.Ping(); err != nil {
-		return nil
-	}
-	return db
-}
 type Book struct {
 	IdBook int `json:"id_book"`
 	Name string `json:"name"`
