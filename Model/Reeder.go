@@ -16,11 +16,11 @@ type Reeder struct {
 	Address string `json:"address"`
 	Email string `json:"email"`
 }
-func SaveReeder(reeder *dao.Reeder){
-	if reeder.Name=="" || reeder.Surname=="" || reeder.DateOfBirth=="" || reeder.Email=="" ||reeder.Address=="" {
+func SaveReeder(reader *dao.Reeder){
+	if reader.Name=="" || reader.Surname=="" || reader.DateOfBirth=="" || reader.Email=="" ||reader.Address=="" {
 		fmt.Println("!!enter data")
 	}
-	dao.Save_reeder_toDB(*reeder)
+	dao.Save_reeder_toDB(*reader)
 }
 
 func GetReeders(AllReeders []dao.Reeder) []dao.Reeder{

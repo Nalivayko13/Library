@@ -4,6 +4,8 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/gorilla/mux"
+	"log"
+	"strconv"
 )
 
 type Book struct {
@@ -67,4 +69,35 @@ func Get_priceOfbook_byId(idBook string) string {
 	}
 	fmt.Println("price per day is ", pricePerDay)
 	return pricePerDay
+}
+
+func Get_numOfCopies_fromDB(idBook string) int {
+	db:=openDB()
+	defer db.Close()
+	s := fmt.Sprintf("SELECT `num_of_copies` FROM `books` WHERE `id_book` = '%s'", idBook)
+	res,err:=db.Query(s)
+	if err!=nil{
+		panic(err)
+	}
+	numofcopies:=""
+	for res.Next(){
+		err = res.Scan(&numofcopies)
+		if err!=nil{
+			panic(err)
+		}
+	}
+	fmt.Println("price per day is ", numofcopies)
+	num,_:=strconv.Atoi(numofcopies)
+	return num
+}
+func Set_numOfCopies_fromDB(numOfCopies string,idBook string){
+	db := openDB()
+	defer db.Close()
+	s := fmt.Sprintf("UPDATE `books` SET `num_of_copies` = '%s' WHERE `id_book` = '%s'",numOfCopies,idBook)
+	log.Println(s)
+	insert, err1 := db.Query(s)
+	if err1 != nil {
+		panic(err1)
+	}
+	defer insert.Close()
 }
