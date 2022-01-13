@@ -17,15 +17,12 @@ func Successful_book_reg(w http.ResponseWriter, r *http.Request){
 	t.Execute(w,nil)
 
 }
-func EnterDataController(w http.ResponseWriter, r *http.Request){
-	fmt.Println(w,"Enter data")
-}
 
 func SaveBookController(w http.ResponseWriter, r *http.Request){
 
 	var book dao.Book
 	book.Name=r.FormValue("name")
-	book.Genre=r.FormValue("genre")
+	//book.Genre=r.FormValue("genre")
 	book.Authors=r.FormValue("authors")
 	book.Num_of_copies=r.FormValue("num_of_copies")
 	book.Price_per_day=r.FormValue("price_per_day")

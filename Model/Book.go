@@ -11,7 +11,7 @@ import (
 type Book struct {
 	IdBook int `json:"id_book"`
 	Name string `json:"name"`
-	Genre string `json:"genre"`
+	Genre []Genre `json:"genre"`
 	Price_of_book string `json:"price_of_book"`
 	Num_of_copies string `json:"num_of_copies"`
 	Authors string `json:"authors"`
@@ -35,10 +35,13 @@ func SaveBook(book *dao.Book){
 		log.Print(err3)
 	}
 
-	if book.Name=="" || book.Price_of_book=="" || book.Price_per_day=="" || book.Num_of_copies=="" || book.Reg_date=="" || book.Genre=="" || book.Authors==""{
+	if book.Name=="" || book.Price_of_book=="" || book.Price_per_day=="" || book.Num_of_copies=="" || book.Reg_date=="" || book.Authors==""{
 		log.Println("No data")
 	}
 	dao.Save_book_toDB(*book)
+	for _, genre := range book.Genre {
+		dao.Save_BookGenre_toDB(genre)
+	}
 }
 
 func Home(AllBooks []dao.Book) []dao.Book {

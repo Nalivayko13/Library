@@ -6,6 +6,7 @@ import (
 	"library/dao"
 	"log"
 	"net/http"
+	"time"
 )
 
 func NewHomeController(w http.ResponseWriter, r *http.Request) {
@@ -17,11 +18,11 @@ func NewHomeController(w http.ResponseWriter, r *http.Request) {
 }
 var Books = []dao.Book{}
 func NewSaveBookController(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	var book dao.Book
-	err:=json.NewDecoder(r.Body).Decode(&book)
-	if err!=nil{
-		log.Fatal(err)
+	book.Reg_date=time.Now().Format("01-02-2006")
+	err := json.NewDecoder(r.Body).Decode(&book)
+	if err != nil {
+		log.Println(err)
 	}
 	Model.SaveBook(&book)
 }

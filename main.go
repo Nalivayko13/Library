@@ -11,7 +11,7 @@ import (
 func RoutersJson() {
 	r := mux.NewRouter()
 	r.HandleFunc("/home", Controller.NewHomeController)//1
-	//r.HandleFunc("/addbook", Controller.NewSaveBookController)//2
+	r.HandleFunc("/save_book", Controller.NewSaveBookController)//2
 	r.HandleFunc("/save_reeder", Controller.NewSaveReederController)//3
 	r.HandleFunc("/reeders", Controller.NewGetReedersController)//4
 	r.HandleFunc("/save_rent", Controller.NewSaveRentController)//5

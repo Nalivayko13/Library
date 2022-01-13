@@ -11,7 +11,7 @@ import (
 type Book struct {
 	IdBook int `json:"id_book"`
 	Name string `json:"name"`
-	Genre string `json:"genre"`
+	Genre []Genre `json:"genre"`
 	Price_of_book string `json:"price_of_book"`
 	Num_of_copies string `json:"num_of_copies"`
 	Authors string `json:"authors"`
@@ -24,7 +24,7 @@ func Save_book_toDB(Mbook Book){
 	book=Mbook
 	db := openDB()
 	defer db.Close()
-	s := fmt.Sprintf("INSERT INTO `books` (`name`,`genre`,`price_of_book`,`num_of_copies`,`authors`, `price_per_day`,`reg_date`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')", book.Name, book.Genre, book.Price_of_book, book.Num_of_copies,book.Authors,book.Price_per_day,book.Reg_date)
+	s := fmt.Sprintf("INSERT INTO `books` (`name`,`price_of_book`,`num_of_copies`,`authors`, `price_per_day`,`reg_date`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')", book.Name, book.Price_of_book, book.Num_of_copies,book.Authors,book.Price_per_day,book.Reg_date)
 	fmt.Println(s)
 	insert, err1 := db.Query(s)
 	if err1 != nil {
