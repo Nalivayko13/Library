@@ -40,6 +40,7 @@ func SaveBook(book *dao.Book){
 	}
 	dao.Save_book_toDB(*book)
 	for _, genre := range book.Genre {
+		genre.BookName=book.Name
 		dao.Save_BookGenre_toDB(genre)
 	}
 }

@@ -1,7 +1,7 @@
 package Model
 
 type Genre struct {
-	IdBook string`json:"id_book"`
+	BookName string `json:"book_name"`
 	GenreOfBook string `json:"genre_of_book"`
 }
 
