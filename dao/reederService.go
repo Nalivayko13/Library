@@ -4,6 +4,7 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/gorilla/mux"
+	"log"
 )
 type Reeder struct {
 	IdReeder int `json:"id_reeder"`
@@ -43,4 +44,22 @@ func Get_reeders_fronDB(AllReeders *[]Reeder){
 		}
 		*AllReeders = append(*AllReeders, reeder)
 	}
+}
+func Get_email_byId(idReeder string) string {
+	db:=openDB()
+	defer db.Close()
+	s := fmt.Sprintf("SELECT `email` FROM `reeders` WHERE `id_reeder` = '%s'", idReeder)
+	res,err:=db.Query(s)
+	if err!=nil{
+		panic(err)
+	}
+	email:=""
+	for res.Next(){
+		err = res.Scan(&email)
+		if err!=nil{
+			panic(err)
+		}
+	}
+	log.Println("email is  ", email)
+	return email
 }

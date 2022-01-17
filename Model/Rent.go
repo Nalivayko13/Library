@@ -52,6 +52,13 @@ func CountFine(rent *dao.Rent) {
 		p2:=float64(p1)
 		day:=(t2.Sub(t1).Hours())/24
 		fine:= p2*(0.01)*day
-		rent.Fine=fine
-	}else { rent.Fine=0}
+		s := fmt.Sprintf("%f", fine)
+		rent.Fine=s
+	}else { rent.Fine=strconv.Itoa(0)}
+}
+
+func GetRent(rent []dao.Rent) []dao.Rent{
+	rent = []dao.Rent{}
+	dao.Get_AllRent_fromDB(&rent)
+	return rent
 }

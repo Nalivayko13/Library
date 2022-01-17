@@ -4,6 +4,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gorilla/mux"
 	"library/Controller"
+	"library/Model"
 	"log"
 	"net/http"
 	"time"
@@ -16,6 +17,7 @@ func RoutersJson() {
 	r.HandleFunc("/reeders", Controller.NewGetReedersController)//4
 	r.HandleFunc("/save_rent", Controller.NewSaveRentController)//5
 	r.HandleFunc("/complete_rent", Controller.NewCompleteRentController)//6
+	r.HandleFunc("/rents", Controller.NewRentController)
 
 	http.ListenAndServe("127.0.0.1:8080", r)
 }
@@ -39,24 +41,16 @@ func main(){
 	dt := time.Now()
 	log.Printf("Current date and time is: ", dt.String())
 	log.Printf("Start")
+	/*err := Model.DownloadFile("https://kot-pes.com/wp-content/uploads/2019/03/post_5b48c1cfca497.jpg",fmt.Sprintf("./booksCover/%s.jpg","cat"))
+	if err != nil {
+		log.Fatal(err)
+	}    */
+
+	Model.FindDebtorAndSendEmail()
 
 	RoutersJson()
 	//RoutersTemplate()
 
-
-
-	/*
-	srv := &http.Server{
-		Addr:     *addr,
-		ErrorLog: errorLog,
-		Handler:  mux,
-	}
-
-	infoLog.Printf("Запуск сервера на %s", *addr)
-	// Вызываем метод ListenAndServe() от нашей новой структуры http.Server
-	err := srv.ListenAndServe()
-	errorLog.Fatal(err)
-	 */
 
 }
 

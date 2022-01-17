@@ -24,7 +24,7 @@ func Save_book_toDB(Mbook Book){
 	book=Mbook
 	db := openDB()
 	defer db.Close()
-	s := fmt.Sprintf("INSERT INTO `books` (`name`,`price_of_book`,`num_of_copies`,`authors`, `price_per_day`,`reg_date`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s')", book.Name, book.Price_of_book, book.Num_of_copies,book.Authors,book.Price_per_day,book.Reg_date)
+	s := fmt.Sprintf("INSERT INTO `books` (`name`,`price_of_book`,`num_of_copies`,`authors`, `price_per_day`,`reg_date`,`cover_photo`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s','%s' )", book.Name, book.Price_of_book, book.Num_of_copies,book.Authors,book.Price_per_day,book.Reg_date,book.Cover_photo)
 	fmt.Println(s)
 	insert, err1 := db.Query(s)
 	if err1 != nil {
@@ -38,13 +38,13 @@ func Save_book_toDB(Mbook Book){
 func Get_books_fronDB(AllBooks *[]Book){
 	db := openDB()
 	defer db.Close()
-	res,err:=db.Query("SELECT * FROM `books`")
+	res,err:=db.Query("SELECT `id_book`,`name`,`price_of_book`,`num_of_copies`,`authors`,`cover_photo`,`price_of_book`,`reg_date` FROM `books`")
 	if err!=nil{
 		panic(err)
 	}
 	for res.Next(){
 		var book Book
-		err = res.Scan(&book.IdBook, &book.Name,&book.Genre, &book.Price_of_book, &book.Num_of_copies, &book.Authors, &book.Cover_photo, &book.Price_of_book,&book.Reg_date)
+		err = res.Scan(&book.IdBook, &book.Name, &book.Price_of_book, &book.Num_of_copies, &book.Authors, &book.Cover_photo, &book.Price_of_book,&book.Reg_date)
 		if err!=nil{
 			panic(err)
 		}

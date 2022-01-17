@@ -11,7 +11,8 @@ type Rent struct {
 	Id_reeder string
 	First_date string
 	Last_date string
-	Fine float64
+	Fine string
+	Comlete string
 }
 
 func Save_rent_toDB(rent Rent){
@@ -56,5 +57,22 @@ func Get_rent_byId(rent *Rent){
 		if err!=nil{
 			panic(err)
 		}
+	}
+}
+
+func Get_AllRent_fromDB(rent *[]Rent){
+	db := openDB()
+	defer db.Close()
+	res,err:=db.Query("SELECT * FROM `rent`")
+	if err!=nil{
+		panic(err)
+	}
+	for res.Next(){
+		var r Rent
+		err = res.Scan(&r.Id_rent, &r.Id_book, &r.Id_reeder, &r.First_date, &r.Last_date,&r.Fine, &r.Comlete)
+		if err!=nil{
+			panic(err)
+		}
+		*rent = append(*rent, r)
 	}
 }

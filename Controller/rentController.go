@@ -25,7 +25,7 @@ func SaveRentController(w http.ResponseWriter, r *http.Request){
 	t:=time.Now()
 	rent.First_date=t.Format("01-02-2006")
 	rent.Last_date=t.Add(720*time.Hour).Format("01-02-2006")
-	rent.Fine=0
+	rent.Fine="0"
 	Model.SaveRent(rent)
 	http.Redirect(w,r,"/successful",http.StatusSeeOther)
 }

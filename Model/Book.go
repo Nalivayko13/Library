@@ -1,6 +1,7 @@
 package Model
 
 import (
+	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/gorilla/mux"
 	"library/dao"
@@ -35,8 +36,12 @@ func SaveBook(book *dao.Book){
 		log.Print(err3)
 	}
 
-	if book.Name=="" || book.Price_of_book=="" || book.Price_per_day=="" || book.Num_of_copies=="" || book.Reg_date=="" || book.Authors==""{
+	if book.Name=="" || book.Price_of_book=="" || book.Price_per_day=="" || book.Num_of_copies=="" || book.Reg_date=="" || book.Authors=="" || book.Cover_photo==""{
 		log.Println("No data")
+	}
+	err4 := DownloadFile(book.Cover_photo,fmt.Sprintf("./booksCover/%s",book.Name))
+	if err4 != nil {
+		log.Fatal(err4)
 	}
 	dao.Save_book_toDB(*book)
 	for _, genre := range book.Genre {

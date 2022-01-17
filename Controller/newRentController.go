@@ -15,7 +15,7 @@ func NewSaveRentController(w http.ResponseWriter, r *http.Request) {
 	t:=time.Now()
 	rent.First_date=t.Format("01-02-2006")
 	rent.Last_date=t.Add(720*time.Hour).Format("01-02-2006")
-	rent.Fine=0
+	rent.Fine="0"
 	err := decoder.Decode(&rent)
 	if err != nil {
 		log.Println(err)
@@ -31,4 +31,12 @@ func NewCompleteRentController(w http.ResponseWriter,r *http.Request) {
 		log.Println(err)
 	}
 	Model.CompleteRent(rent)
+}
+var Rent = []dao.Rent{}
+func NewRentController(w http.ResponseWriter, r *http.Request) {
+	Rent = Model.GetRent(Rent)
+	err := json.NewEncoder(w).Encode(Rent)
+	if err != nil {
+		log.Println(err)
+	}
 }
