@@ -41,12 +41,16 @@ func main(){
 	dt := time.Now()
 	log.Printf("Current date and time is: ", dt.String())
 	log.Printf("Start")
-	/*err := Model.DownloadFile("https://kot-pes.com/wp-content/uploads/2019/03/post_5b48c1cfca497.jpg",fmt.Sprintf("./booksCover/%s.jpg","cat"))
+	/*err := Model.DownloadFile("https://kot-pes.com/wp-content/uploads/2019/03/post_5b48c1cfca497.jpg",fmt.Sprintf("C:/GO/booksCover/%s.jpg","cat"))
 	if err != nil {
 		log.Fatal(err)
-	}    */
+	}  */
+	err1 := Model.CallAt(13, 41, 0, Model.FindDebtorAndSendEmail)
+	if err1 != nil {
+		log.Println(err1)
+	}
 
-	Model.FindDebtorAndSendEmail()
+	//Model.FindDebtorAndSendEmail()
 
 	RoutersJson()
 	//RoutersTemplate()

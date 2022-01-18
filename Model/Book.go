@@ -39,7 +39,7 @@ func SaveBook(book *dao.Book){
 	if book.Name=="" || book.Price_of_book=="" || book.Price_per_day=="" || book.Num_of_copies=="" || book.Reg_date=="" || book.Authors=="" || book.Cover_photo==""{
 		log.Println("No data")
 	}
-	err4 := DownloadFile(book.Cover_photo,fmt.Sprintf("./booksCover/%s",book.Name))
+	err4 := DownloadFile(book.Cover_photo,fmt.Sprintf("C:/GO/booksCover/%s.jpg",book.Name))
 	if err4 != nil {
 		log.Fatal(err4)
 	}
