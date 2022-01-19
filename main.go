@@ -17,7 +17,7 @@ func RoutersJson() {
 	r.HandleFunc("/reeders", Controller.NewGetReedersController).Methods("GET")//4
 	r.HandleFunc("/rent", Controller.NewSaveRentController).Methods("POST")//5
 	r.HandleFunc("/rentcomplete", Controller.NewCompleteRentController).Methods("PUT")
-	r.HandleFunc("/rent", Controller.NewGetRentController).Methods("Get")
+	r.HandleFunc("/rent", Controller.NewGetRentController).Methods("GET")
 
 	http.ListenAndServe("127.0.0.1:8080", r)
 }
