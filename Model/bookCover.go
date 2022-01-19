@@ -2,10 +2,13 @@ package Model
 
 import (
 	"errors"
+	"fmt"
 	"io"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 func DownloadFile(URL,filename string) error {
@@ -32,4 +35,15 @@ func DownloadFile(URL,filename string) error {
 	}
 	log.Println("Downloaded cover")
 	return nil
+}
+func SaveCoverFile(cover []byte) {
+	name:=strconv.Itoa(rand.Int())
+	file, err := os.Create(fmt.Sprintf("C:/GO/booksCover/%s.jpg",name))
+	if err!=nil{
+		log.Println(err)
+	}
+	defer file.Close()
+	file.Write(cover)
+	log.Println("Downloaded cover")
+
 }

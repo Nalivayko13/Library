@@ -18,7 +18,8 @@ func RoutersJson() {
 	r.HandleFunc("/rent", Controller.NewSaveRentController).Methods("POST")//5
 	r.HandleFunc("/rentcomplete", Controller.NewCompleteRentController).Methods("PUT")
 	r.HandleFunc("/rent", Controller.NewGetRentController).Methods("GET")
-
+	r.HandleFunc("/cover", Controller.NewSaveCoverController).Methods("POST")
+	r.HandleFunc("/cover", Controller.NewGetCoverController).Methods("GET")
 	http.ListenAndServe("127.0.0.1:8080", r)
 }
 func RoutersTemplate() {
