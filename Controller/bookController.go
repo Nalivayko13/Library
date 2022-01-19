@@ -6,6 +6,7 @@ import (
 	"library/Model"
 	"library/dao"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -46,7 +47,9 @@ func HomeController(w http.ResponseWriter,r *http.Request){
 	if err!=nil{
 		fmt.Fprintf(w,err.Error())
 	}
-	AllBooks=Model.Home(AllBooks)
+	limit,_:= strconv.Atoi(r.URL.Query().Get("limit"))
+	page,_:= strconv.Atoi(r.URL.Query().Get("page"))
+	AllBooks=Model.Home(AllBooks,limit,page)
 	t.Execute(w,AllBooks)
 
 }

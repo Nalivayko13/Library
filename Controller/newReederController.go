@@ -19,6 +19,7 @@ func NewSaveReederController(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewGetReedersController(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	AllReeders = Model.GetReeders(AllReeders)
 	err := json.NewEncoder(w).Encode(AllReeders)
 	if err != nil {

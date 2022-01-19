@@ -6,11 +6,15 @@ import (
 	"library/dao"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
 func NewHomeController(w http.ResponseWriter, r *http.Request) {
-	Books = Model.Home(Books)
+	w.Header().Set("Content-Type", "application/json")
+	page,_:= strconv.Atoi(r.URL.Query().Get("page"))
+	limit,_:= strconv.Atoi(r.URL.Query().Get("limit"))
+	Books = Model.Home(Books,limit,page)
 	err := json.NewEncoder(w).Encode(Books)
 	if err != nil {
 		log.Println(err)

@@ -19,7 +19,7 @@ type Book struct {
 	Price_per_day string `json:"price_per_day"`
 	Reg_date string `json:"reg_date"`
 }
-func Save_book_toDB(Mbook Book){
+func Save_book_toDB(Mbook Book) {
 	var book Book
 	book=Mbook
 	db := openDB()
@@ -34,6 +34,27 @@ func Save_book_toDB(Mbook Book){
 	fmt.Println(insert)
 	defer insert.Close()
 }
+
+func Get_booksWithPage_fronDB(AllBooks *[]Book,limit, page int){
+	db := openDB()
+	defer db.Close()
+	//TODO change limit(20)
+	res,err:=db.Query(fmt.Sprintf(  "SELECT `id_book`,`name`,`price_of_book`,`num_of_copies`,`authors`,`cover_photo`,`price_of_book`,`reg_date` FROM `books` ORDER BY `id_book` LIMIT %d OFFSET %d",
+		limit,limit*(page-1)))
+	if err!=nil{
+		panic(err)
+	}
+	for res.Next(){
+		var book Book
+		err = res.Scan(&book.IdBook, &book.Name, &book.Price_of_book, &book.Num_of_copies, &book.Authors, &book.Cover_photo, &book.Price_of_book,&book.Reg_date)
+		if err!=nil{
+			panic(err)
+		}
+		*AllBooks = append (*AllBooks, book)
+	}
+
+}
+
 
 func Get_books_fronDB(AllBooks *[]Book){
 	db := openDB()

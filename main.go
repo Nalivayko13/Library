@@ -11,13 +11,13 @@ import (
 )
 func RoutersJson() {
 	r := mux.NewRouter()
-	r.HandleFunc("/home", Controller.NewHomeController)//1
-	r.HandleFunc("/save_book", Controller.NewSaveBookController)//2
-	r.HandleFunc("/save_reeder", Controller.NewSaveReederController)//3
-	r.HandleFunc("/reeders", Controller.NewGetReedersController)//4
-	r.HandleFunc("/save_rent", Controller.NewSaveRentController)//5
-	r.HandleFunc("/complete_rent", Controller.NewCompleteRentController)//6
-	r.HandleFunc("/rents", Controller.NewRentController)
+	r.HandleFunc("/home", Controller.NewHomeController).Methods("GET")//1
+	r.HandleFunc("/book", Controller.NewSaveBookController).Methods("POST")//2
+	r.HandleFunc("/reeder", Controller.NewSaveReederController).Methods("POST")//3
+	r.HandleFunc("/reeders", Controller.NewGetReedersController).Methods("GET")//4
+	r.HandleFunc("/rent", Controller.NewSaveRentController).Methods("POST")//5
+	r.HandleFunc("/rentcomplete", Controller.NewCompleteRentController).Methods("PUT")
+	r.HandleFunc("/rent", Controller.NewGetRentController).Methods("Get")
 
 	http.ListenAndServe("127.0.0.1:8080", r)
 }
@@ -33,7 +33,7 @@ func RoutersTemplate() {
 	r.HandleFunc("/give_book", Controller.GiveBook)//no
 	r.HandleFunc("/save_rent", Controller.SaveRentController)//5+
 	r.HandleFunc("/returnbook", Controller.ReturnBookController)//no
-	r.HandleFunc("/complete_rent", Controller.CompleteRentController)//6-
+	r.HandleFunc("/complete_rent", Controller.CompleteRentController)//6+
 	http.ListenAndServe("127.0.0.1:8080", r)
 }
 
@@ -45,12 +45,10 @@ func main(){
 	if err != nil {
 		log.Fatal(err)
 	}  */
-	err1 := Model.CallAt(13, 41, 0, Model.FindDebtorAndSendEmail)
+	err1 := Model.CallAt(18, 41, 0, Model.FindDebtorAndSendEmail)
 	if err1 != nil {
 		log.Println(err1)
 	}
-
-	//Model.FindDebtorAndSendEmail()
 
 	RoutersJson()
 	//RoutersTemplate()

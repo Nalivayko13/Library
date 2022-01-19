@@ -24,6 +24,7 @@ func NewSaveRentController(w http.ResponseWriter, r *http.Request) {
 }
 
 func NewCompleteRentController(w http.ResponseWriter,r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	decoder := json.NewDecoder(r.Body)
 	var rent dao.Rent
 	err := decoder.Decode(&rent)
@@ -33,7 +34,8 @@ func NewCompleteRentController(w http.ResponseWriter,r *http.Request) {
 	Model.CompleteRent(rent)
 }
 var Rent = []dao.Rent{}
-func NewRentController(w http.ResponseWriter, r *http.Request) {
+func NewGetRentController(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	Rent = Model.GetRent(Rent)
 	err := json.NewEncoder(w).Encode(Rent)
 	if err != nil {
