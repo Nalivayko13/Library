@@ -2,6 +2,7 @@ package Controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"library/Model"
 	"library/dao"
 	"log"
@@ -15,7 +16,10 @@ func NewSaveReederController(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	Model.SaveReeder(&t)
+	err1:=Model.SaveReeder(&t)
+	if err1 != nil {
+		json.NewEncoder(w).Encode(fmt.Sprintf("Error: %s",err1))
+	}
 }
 
 func NewGetReedersController(w http.ResponseWriter, r *http.Request) {

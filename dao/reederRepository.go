@@ -63,3 +63,31 @@ func Get_email_byId(idReeder string) string {
 	log.Println("email is  ", email)
 	return email
 }
+
+func Get_AllreedersID_fromDB(idReeders *[]int) {
+	db := openDB()
+	defer db.Close()
+	res,err:=db.Query("SELECT `id_reeder` FROM `reeders`")
+	if err!=nil{
+		panic(err)
+	}
+	for res.Next(){
+		var reederID int
+		err = res.Scan(&reederID)
+		*idReeders = append (*idReeders, reederID)
+	}
+}
+
+func Get_Allemails_fromDB(emails *[]string) {
+	db := openDB()
+	defer db.Close()
+	res,err:=db.Query("SELECT `email` FROM `reeders`")
+	if err!=nil{
+		panic(err)
+	}
+	for res.Next(){
+		var email string
+		err = res.Scan(&email)
+		*emails = append (*emails, email)
+	}
+}

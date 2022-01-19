@@ -2,6 +2,7 @@ package Controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"library/Model"
 	"library/dao"
 	"log"
@@ -28,5 +29,10 @@ func NewSaveBookController(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	Model.SaveBook(&book)
+	err1:=Model.SaveBook(&book)
+	if err1 != nil {
+		json.NewEncoder(w).Encode(fmt.Sprintf("Error: %s",err1))
+	}
 }
+
+

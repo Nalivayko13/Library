@@ -1,6 +1,7 @@
 package Model
 
 import (
+	"errors"
 	"fmt"
 	"library/dao"
 	"log"
@@ -16,18 +17,49 @@ type Rent struct {
 	Last_date string `json:"last_date"`
 	Fine float64 `json:"fine"`
 }
-func SaveRent(rent dao.Rent){
+func SaveRent(rent dao.Rent) error{
 
 	if rent.Id_reeder=="" || rent.Id_book=="" {
 		fmt.Println("enter data")
+		simpError:=errors.New("No data")
+		return simpError
+		
 	}
+	correct:=0
+	var idBook []int
+	dao.Get_AllbookID_fromDB(&idBook)
+	var idReeder []int
+	dao.Get_AllreedersID_fromDB(&idReeder)
+	for _,idB := range idBook{
+		id:=strconv.Itoa(idB)
+		if id==rent.Id_book{
+			correct++
+		}
+	}
+	for _,idR := range idReeder{
+		id:=strconv.Itoa(idR)
+		if id==rent.Id_book{
+			correct++
+		}
+	}
+	if correct==0 {
+	log.Println("no such id exists")
+		return errors.New("no such id exists")
+	}
+
 	numOfCopies:=dao.Get_numOfCopies_fromDB(rent.Id_book)-1
-	if numOfCopies<=0 {
+	fmt.Println(numOfCopies)
+	if numOfCopies<0 {
 		log.Println("out of copies of the book...")
+		simpError:=errors.New("out of copies of the book...")
+		return simpError
 	}
+
+
 	str:=strconv.Itoa(numOfCopies)
 	dao.Set_numOfCopies_fromDB(str, rent.Id_book)
 	dao.Save_rent_toDB(rent)
+	return nil
 }
 
 func CompleteRent(rent dao.Rent){

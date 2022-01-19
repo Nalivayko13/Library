@@ -122,3 +122,17 @@ func Set_numOfCopies_fromDB(numOfCopies string,idBook string){
 	}
 	defer insert.Close()
 }
+
+func Get_AllbookID_fromDB(idBooks *[]int) {
+	db := openDB()
+	defer db.Close()
+	res,err:=db.Query("SELECT `id_book` FROM `books`")
+	if err!=nil{
+		panic(err)
+	}
+	for res.Next(){
+		var bookID int
+		err = res.Scan(&bookID)
+		*idBooks = append (*idBooks, bookID)
+	}
+}
