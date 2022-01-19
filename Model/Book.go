@@ -39,8 +39,7 @@ func SaveBook(book *dao.Book) error{
 		log.Print(err3)
 		return errors.New("incorrect number of copies")
 	}
-
-	if book.Name=="" || book.Price_of_book=="" || book.Price_per_day=="" || book.Num_of_copies=="" || book.Reg_date=="" || book.Authors=="" || book.Cover_photo==""{
+	if book.Name=="" || book.Genre==nil || book.Price_of_book=="" || book.Price_per_day=="" || book.Num_of_copies=="" || book.Reg_date=="" || book.Authors=="" || book.Cover_photo==""{
 		log.Println("No data")
 		return errors.New("No data")
 	}
@@ -48,10 +47,10 @@ func SaveBook(book *dao.Book) error{
 	if err4 != nil {
 		log.Fatal(err4)
 	}
-	dao.Save_book_toDB(*book)
+    book.IdBook=dao.Save_book_toDB(*book)
 	for _, genre := range book.Genre {
 		genre.BookName=book.Name
-		dao.Save_BookGenre_toDB(genre)
+		dao.Save_BookGenre_toDB(book.IdBook,genre)
 	}
 	return nil
 }

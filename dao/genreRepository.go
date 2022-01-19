@@ -7,13 +7,13 @@ import (
 
 type Genre struct {
 	BookName string `json:"book_name"`
-	GenreOfBook string `json:"genre_of_book"`
+	GenreOfBook int `json:"genre_of_book"`
 }
 
-func Save_BookGenre_toDB(genre Genre) {
+func Save_BookGenre_toDB(IdBook int,genre Genre) {
 	db := openDB()
 	defer db.Close()
-	s := fmt.Sprintf("INSERT INTO `genres` (`book_name`, `genre_of_book`) VALUES ('%s','%s');", genre.BookName, genre.GenreOfBook)
+	s := fmt.Sprintf("INSERT INTO `book_genre` (`id_book`, `id_genre`) VALUES (%d, %d);", IdBook, genre.GenreOfBook)
 	fmt.Println(s)
 	insert, err1 := db.Query(s)
 	if err1 != nil {

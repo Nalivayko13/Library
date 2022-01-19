@@ -18,7 +18,9 @@ func NewSaveReederController(w http.ResponseWriter, r *http.Request) {
 	}
 	err1:=Model.SaveReeder(&t)
 	if err1 != nil {
-		json.NewEncoder(w).Encode(fmt.Sprintf("Error: %s",err1))
+		b, _ := json.Marshal(fmt.Sprintf("Error: %s",err1))
+		//json.NewEncoder(w).Encode(b)
+		w.Write(b)
 	}
 }
 

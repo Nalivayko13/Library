@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"library/dao"
 	"log"
 	"math/rand"
 	"net/http"
@@ -46,4 +47,21 @@ func SaveCoverFile(cover []byte) {
 	file.Write(cover)
 	log.Println("Downloaded cover")
 
+}
+func GetCoverById(id string) (string, error){
+	var idBooks []int
+	correct:=0
+	dao.Get_AllbookID_fromDB(&idBooks)
+	for _,i:=range idBooks{
+		if Id,_:=strconv.Atoi(id); i==Id {
+			correct++
+		}
+	}
+	if correct==0{
+		log.Println("no such id exists")
+		return "",errors.New("no such id exists")
+	}
+	cover:=dao.Get_CoverPhoto_byId(id)
+	fmt.Println(cover)
+	return cover,nil
 }

@@ -32,7 +32,9 @@ func NewSaveBookController(w http.ResponseWriter, r *http.Request) {
 	}
 	err1:=Model.SaveBook(&book)
 	if err1 != nil {
-		json.NewEncoder(w).Encode(fmt.Sprintf("Error: %s",err1))
+		b, _ := json.Marshal(fmt.Sprintf("Error: %s",err1))
+		//json.NewEncoder(w).Encode(b)
+		w.Write(b)
 	}
 }
 
@@ -54,6 +56,15 @@ func NewGetCoverController(w http.ResponseWriter,r *http.Request) {
 	fContent, err := ioutil.ReadFile(fmt.Sprintf("C:/GO/booksCover/%s.jpg",name))
 	if err != nil {
 		log.Println(err)
+	}
+    w.Write(fContent)
+}
+
+func NewGetCoverController1(w http.ResponseWriter,r *http.Request) {
+	id:= r.URL.Query().Get("id")
+	fContent, err:=Model.GetCoverById(id)
+	if err != nil {
+		json.NewEncoder(w).Encode(fmt.Sprintf("Error: %s",err))
 	}
 	json.NewEncoder(w).Encode(fContent)
 }
