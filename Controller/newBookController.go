@@ -19,7 +19,7 @@ func NewHomeController(w http.ResponseWriter, r *http.Request) {
 	Books = Model.Home(Books,limit,page)
 	err := json.NewEncoder(w).Encode(Books)
 	if err != nil {
-		log.Println(err)
+		log.Println(w, http.StatusBadRequest)
 	}
 }
 var Books = []dao.Book{}
