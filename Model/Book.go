@@ -49,7 +49,7 @@ func SaveBook(book *dao.Book) error{
 	}
     book.IdBook=dao.Save_book_toDB(*book)
 	for _, genre := range book.Genre {
-		genre.BookName=book.Name
+		//genre.BookName=book.Name
 		dao.Save_BookGenre_toDB(book.IdBook,genre)
 	}
 	return nil
@@ -62,5 +62,9 @@ func Home(AllBooks []dao.Book, limit, page int) []dao.Book {
 	dao.Get_books_fronDB(&AllBooks)
 	log.Println("this is all books")
 	}
+	for i,_:= range AllBooks{
+		AllBooks[i].Genre = dao.Get_Genre_fromDB(AllBooks[i].IdBook)
+	}
+
 	return AllBooks
 }

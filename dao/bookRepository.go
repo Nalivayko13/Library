@@ -1,19 +1,21 @@
 package dao
 
 import (
+	_ "database/sql"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/gorilla/mux"
+	_ "github.com/jmoiron/sqlx"
 	"log"
 	"strconv"
 )
 
 type Book struct {
-	IdBook int `json:"id_book"`
-	Name string `json:"name"`
-	Genre []Genre `json:"genre"`
-	Price_of_book string `json:"price_of_book"`
-	Num_of_copies string `json:"num_of_copies"`
+	IdBook int `json:"id_book" db:"id_book"`
+	Name string `json:"name" db:"name" `
+	Genre []Genre `json:"genre" db:"genre"`
+	Price_of_book string `json:"price_of_book" db:"price_of_book"`
+	Num_of_copies string `json:"num_of_copies" db:"num_of_copies"`
 	Authors string `json:"authors"`
 	Cover_photo string `json:"cover_photo"`
 	Price_per_day string `json:"price_per_day"`
@@ -67,6 +69,11 @@ func Get_booksWithPage_fronDB(AllBooks *[]Book,limit, page int){
 	}
 
 }
+
+
+
+
+
 
 
 func Get_books_fronDB(AllBooks *[]Book){
