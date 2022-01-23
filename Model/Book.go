@@ -58,12 +58,21 @@ func SaveBook(book *dao.Book) error{
 	return nil
 }
 
-func Home(AllBooks []dao.Book, limit, page int) []dao.Book {
+func Home(AllBooks []dao.Book, limit, page int) ([]dao.Book,error) {
 	AllBooks = []dao.Book{}
+	var Total = []dao.Book{}
 	dao.Get_booksWithPage_fronDB(&AllBooks,limit, page)
+	dao.Get_books_fronDB(&Total)
+	totalCount:=len(Total)
+	LimitOfPages:=(totalCount/limit)+1
+
+	if LimitOfPages<page{
+		return nil,errors.New("No more pages")
+	}
 	if limit==0 || page==0 {
-	dao.Get_books_fronDB(&AllBooks)
-		log.Println("this is all books")
+	//dao.Get_books_fronDB(&AllBooks)
+		//log.Println("this is all books")
+		return nil,errors.New("no page or limit")
 	}
 
 	args := make([]interface{}, len(AllBooks))
@@ -85,5 +94,5 @@ func Home(AllBooks []dao.Book, limit, page int) []dao.Book {
 
 	}
 	fmt.Println(AllBooks)
-	return AllBooks
+	return AllBooks, nil
 }

@@ -17,8 +17,7 @@ type Rent struct {
 	Last_date string `json:"last_date"`
 	Fine float64 `json:"fine"`
 }
-func SaveRent(rent dao.Rent) error{
-
+func SaveRent(rent *dao.Rent) error{
 	if rent.Id_reeder=="" || rent.Id_book=="" {
 		fmt.Println("enter data")
 		simpError:=errors.New("No data")
@@ -46,7 +45,6 @@ func SaveRent(rent dao.Rent) error{
 	log.Println("no such id exists")
 		return errors.New("no such id exists")
 	}
-
 	numOfCopies:=dao.Get_numOfCopies_fromDB(rent.Id_book)-1
 	fmt.Println(numOfCopies)
 	if numOfCopies<0 {
@@ -54,11 +52,9 @@ func SaveRent(rent dao.Rent) error{
 		simpError:=errors.New("out of copies of the book...")
 		return simpError
 	}
-
-
 	str:=strconv.Itoa(numOfCopies)
 	dao.Set_numOfCopies_fromDB(str, rent.Id_book)
-	dao.Save_rent_toDB(rent)
+	dao.Save_rent_toDB(*rent)
 	return nil
 }
 
@@ -89,8 +85,18 @@ func CountFine(rent *dao.Rent) {
 	}else { rent.Fine=strconv.Itoa(0)}
 }
 
-func GetRent(rent []dao.Rent) []dao.Rent{
+func GetRent(rent []dao.Rent,limit,page int) ([]dao.Rent,error){
 	rent = []dao.Rent{}
-	dao.Get_AllRent_fromDB(&rent)
-	return rent
+	var Total = []dao.Rent{}
+	dao.Get_AllRentWithPage_fromDB(&rent,limit,page)
+	dao.Get_AllRent_fromDB(&Total)
+	totalCount:=len(Total)
+	LimitOfPages:=(totalCount/limit)+1
+	if LimitOfPages<page{
+		return nil,errors.New("No more pages")
+	}
+	if limit==0 || page==0 {
+		return nil,errors.New("no page or limit")
+	}
+	return rent,nil
 }

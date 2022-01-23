@@ -40,8 +40,20 @@ func SaveReeder(reader *dao.Reeder) error{
 	return nil
 }
 
-func GetReeders(AllReeders []dao.Reeder) []dao.Reeder{
+func GetReeders(AllReeders []dao.Reeder, limit,page int) ([]dao.Reeder,error){
 	AllReeders = []dao.Reeder{}
-	dao.Get_reeders_fronDB(&AllReeders)
-	return AllReeders
+	var Total = []dao.Reeder{}
+	dao.Get_reedersWithPage_fronDB(&AllReeders,limit,page)
+	dao.Get_reeders_fronDB(&Total)
+	totalCount:=len(Total)
+	LimitOfPages:=(totalCount/limit)+1
+	if LimitOfPages<page{
+		return nil,errors.New("No more pages")
+	}
+	if limit==0 || page==0 {
+		//dao.Get_books_fronDB(&AllBooks)
+		//log.Println("this is all books")
+		return nil,errors.New("no page or limit")
+	}
+	return AllReeders,nil
 }

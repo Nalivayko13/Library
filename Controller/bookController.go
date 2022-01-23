@@ -49,7 +49,7 @@ func HomeController(w http.ResponseWriter,r *http.Request){
 	}
 	limit,_:= strconv.Atoi(r.URL.Query().Get("limit"))
 	page,_:= strconv.Atoi(r.URL.Query().Get("page"))
-	AllBooks=Model.Home(AllBooks,limit,page)
+	AllBooks,_=Model.Home(AllBooks,limit,page)
 	t.Execute(w,AllBooks)
 
 }

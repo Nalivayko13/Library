@@ -78,6 +78,26 @@ func Get_AllreedersID_fromDB(idReeders *[]int) {
 	}
 }
 
+func Get_reedersWithPage_fronDB(AllReeders *[]Reeder,limit, page int){
+	db := openDB()
+	defer db.Close()
+	//TODO change limit(20)
+	res,err:=db.Query(fmt.Sprintf(  "SELECT * FROM `reeders` ORDER BY `name` LIMIT %d OFFSET %d",
+		limit,limit*(page-1)))
+	if err!=nil{
+		panic(err)
+	}
+	for res.Next(){
+		var reeder Reeder
+		err = res.Scan(&reeder.IdReeder,&reeder.Name,&reeder.Surname, &reeder.DateOfBirth, &reeder.Address, &reeder.Email)
+		if err!=nil{
+			panic(err)
+		}
+		*AllReeders = append(*AllReeders, reeder)
+	}
+
+}
+
 func Get_Allemails_fromDB(emails *[]string) {
 	db := openDB()
 	defer db.Close()

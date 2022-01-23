@@ -16,7 +16,12 @@ func NewHomeController(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	page,_:= strconv.Atoi(r.URL.Query().Get("page"))
 	limit,_:= strconv.Atoi(r.URL.Query().Get("limit"))
-	Books = Model.Home(Books,limit,page)
+	Books,errr:= Model.Home(Books,limit,page)
+	if errr!=nil{
+		b, _ := json.Marshal(fmt.Sprintf("Error: %s",errr))
+		//json.NewEncoder(w).Encode(b)
+		w.Write(b)
+	}
 	err := json.NewEncoder(w).Encode(Books)
 	if err != nil {
 		log.Println(w, http.StatusBadRequest)

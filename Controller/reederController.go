@@ -6,7 +6,7 @@ import (
 	"library/Model"
 	"library/dao"
 	"net/http"
-
+	"strconv"
 )
 
 func AddReederController(w http.ResponseWriter,r *http.Request){
@@ -34,7 +34,9 @@ func GetReedersController(w http.ResponseWriter,r *http.Request){
 	if err!=nil{
 		fmt.Fprintf(w,err.Error())
 	}
-	AllReeders = Model.GetReeders(AllReeders)
+	limit,_:= strconv.Atoi(r.URL.Query().Get("limit"))
+	page,_:= strconv.Atoi(r.URL.Query().Get("page"))
+	AllReeders,_ = Model.GetReeders(AllReeders,limit,page)
 	t.Execute(w, AllReeders)
 
 }

@@ -7,6 +7,7 @@ import (
 	"library/dao"
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 )
 
@@ -21,7 +22,7 @@ func NewSaveRentController(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	err1:=Model.SaveRent(rent)
+	err1:=Model.SaveRent(&rent)
 	if err1 != nil {
 		b, _ := json.Marshal(fmt.Sprintf("Error: %s",err1))
 		//json.NewEncoder(w).Encode(b)
@@ -42,7 +43,14 @@ func NewCompleteRentController(w http.ResponseWriter,r *http.Request) {
 var Rent = []dao.Rent{}
 func NewGetRentController(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	Rent = Model.GetRent(Rent)
+	page,_:= strconv.Atoi(r.URL.Query().Get("page"))
+	limit,_:= strconv.Atoi(r.URL.Query().Get("limit"))
+	Rent,errr := Model.GetRent(Rent,limit,page)
+	if errr!=nil{
+		b, _ := json.Marshal(fmt.Sprintf("Error: %s",errr))
+		//json.NewEncoder(w).Encode(b)
+		w.Write(b)
+	}
 	err := json.NewEncoder(w).Encode(Rent)
 	if err != nil {
 		log.Println(err)

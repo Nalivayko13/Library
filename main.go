@@ -14,7 +14,7 @@ func RoutersJson() {
 	r.HandleFunc("/book", Controller.NewHomeController).Methods("GET")//1
 	r.HandleFunc("/book", Controller.NewSaveBookController).Methods("POST")//2
 	r.HandleFunc("/reeder", Controller.NewSaveReederController).Methods("POST")//3
-	r.HandleFunc("/reeders", Controller.NewGetReedersController).Methods("GET")//4
+	r.HandleFunc("/reeder", Controller.NewGetReedersController).Methods("GET")//4
 	r.HandleFunc("/rent", Controller.NewSaveRentController).Methods("POST")//5
 	r.HandleFunc("/rentcomplete", Controller.NewCompleteRentController).Methods("PUT")
 	r.HandleFunc("/rent", Controller.NewGetRentController).Methods("GET")

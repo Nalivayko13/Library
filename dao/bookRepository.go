@@ -72,10 +72,6 @@ func Get_booksWithPage_fronDB(AllBooks *[]Book,limit, page int){
 
 
 
-
-
-
-
 func Get_books_fronDB(AllBooks *[]Book){
 	db := openDB()
 	defer db.Close()
@@ -115,7 +111,8 @@ func Get_priceOfbook_byId(idBook string) string {
 func Get_numOfCopies_fromDB(idBook string) int {
 	db:=openDB()
 	defer db.Close()
-	s := fmt.Sprintf("SELECT `num_of_copies` FROM `books` WHERE `id_book` = '%s'", idBook)
+	id,_:=strconv.Atoi(idBook)
+	s := fmt.Sprintf("SELECT `num_of_copies` FROM `books` WHERE `id_book` = %d", id)
 	res,err:=db.Query(s)
 	if err!=nil{
 		panic(err)
@@ -129,6 +126,7 @@ func Get_numOfCopies_fromDB(idBook string) int {
 	}
 	fmt.Println("price per day is ", numofcopies)
 	num,_:=strconv.Atoi(numofcopies)
+	fmt.Println(num)
 	return num
 }
 func Set_numOfCopies_fromDB(numOfCopies string,idBook string){

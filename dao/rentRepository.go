@@ -6,16 +6,17 @@ import (
 )
 
 type Rent struct {
-	Id_rent string
-	Id_book string
-	Id_reeder string
-	First_date string
-	Last_date string
-	Fine string
-	Comlete string
+	Id_rent string `json:"id_rent" db:"id_rent"`
+	Id_book string `json:"id_book" db:"id_book"`
+	Id_reeder string `json:"id_reeder" db:"id_reeder"`
+	First_date string `json:"first_date"`
+	Last_date string `json:"last_date"`
+	Fine string `json:"fine"`
+	Comlete string `json:"comlete"`
 }
 
 func Save_rent_toDB(rent Rent){
+	fmt.Println(rent)
 	db := openDB()
 	defer db.Close()
 
@@ -64,6 +65,23 @@ func Get_AllRent_fromDB(rent *[]Rent){
 	db := openDB()
 	defer db.Close()
 	res,err:=db.Query("SELECT * FROM `rent`")
+	if err!=nil{
+		panic(err)
+	}
+	for res.Next(){
+		var r Rent
+		err = res.Scan(&r.Id_rent, &r.Id_book, &r.Id_reeder, &r.First_date, &r.Last_date,&r.Fine, &r.Comlete)
+		if err!=nil{
+			panic(err)
+		}
+		*rent = append(*rent, r)
+	}
+}
+
+func Get_AllRentWithPage_fromDB(rent *[]Rent, limit,page int){
+	db := openDB()
+	defer db.Close()
+	res,err:=db.Query(fmt.Sprintf("SELECT * FROM `rent` ORDER BY `id_rent` LIMIT %d OFFSET %d",limit,limit*(page-1)))
 	if err!=nil{
 		panic(err)
 	}
