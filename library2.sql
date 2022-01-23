@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Янв 23 2022 г., 20:48
+-- Время создания: Янв 23 2022 г., 23:35
 -- Версия сервера: 8.0.24
 -- Версия PHP: 7.1.33
 
@@ -44,18 +44,12 @@ CREATE TABLE `books` (
 
 INSERT INTO `books` (`id_book`, `name`, `price_of_book`, `num_of_copies`, `authors`, `cover_photo`, `price_per_day`, `reg_date`) VALUES
 (20, 'reg', '4', '4', 'reg', 'default', '4', '12-20-2021'),
-(22, '100', '100', '98', '100', 'default', '100', '12-21-2021'),
 (25, 'newBook', '123', '3', 'authors', 'default', '1', '12-28-2021'),
 (26, 'refactor', '123', '8', '4', 'default', '2', '12-29-2021'),
 (40, 'hunger games', '1000', '5', 'Collin', 'https://s00.yaplakal.com/pics/pics_original/1/2/6/11606621.jpg', '1', '01-18-2022'),
-(41, 'hunger games', '1000', '5', 'Collin', 'https://s00.yaplakal.com/pics/pics_original/1/2/6/11606621.jpg', '1', '01-19-2022'),
-(46, 'ippppppa', '1000', '0', 'default', 'default', '0', 'default'),
-(47, 'ippppppa', '1000', '5', 'Collin', 'https://mobimg.b-cdn.net/v3/fetch/c4/c493aac67877288476b0fc52d55f55cf.jpeg', '1', '01-20-2022'),
-(50, 'harry potter', '1200', '4', 'Collin', 'https://image.tmdb.org/t/p/original/8f9dnOtpArDrOMEylpSN9Sc6fuz.jpg', '1', '01-20-2022'),
-(58, 'Harry Potter', '1000', '5', 'Rowling', 'https://image.tmdb.org/t/p/original/8f9dnOtpArDrOMEylpSN9Sc6fuz.jpg', '1', '01-20-2022'),
-(59, 'newOne', '12', '5', 'newOne', 'https://image.tmdb.org/t/p/original/8f9dnOtpArDrOMEylpSN9Sc6fuz.jpg', '1', '01-23-2022'),
-(60, 'newOne', '12', '5', 'newOne', 'https://image.tmdb.org/t/p/original/8f9dnOtpArDrOMEylpSN9Sc6fuz.jpg', '1', '01-23-2022'),
-(71, 'qwrty12', '12', '5', 'newOne', 'https://image.tmdb.org/t/p/original/8f9dnOtpArDrOMEylpSN9Sc6fuz.jpg', '1', '01-23-2022');
+(46, 'book1', '1000', '0', 'default', 'default', '0', 'default'),
+(47, 'book2', '1000', '5', 'Collin', 'https://mobimg.b-cdn.net/v3/fetch/c4/c493aac67877288476b0fc52d55f55cf.jpeg', '1', '01-20-2022'),
+(58, 'Harry Potter', '1000', '5', 'Rowling', 'https://image.tmdb.org/t/p/original/8f9dnOtpArDrOMEylpSN9Sc6fuz.jpg', '1', '01-20-2022');
 
 -- --------------------------------------------------------
 
@@ -79,11 +73,7 @@ INSERT INTO `book_genre` (`id`, `id_book`, `id_genre`) VALUES
 (12, 47, 1),
 (13, 47, 2),
 (24, 58, 2),
-(25, 58, 4),
-(30, 60, 3),
-(31, 60, 6),
-(33, 71, 5),
-(34, 71, 6);
+(25, 58, 4);
 
 -- --------------------------------------------------------
 
@@ -142,11 +132,9 @@ CREATE TABLE `reeders` (
 --
 
 INSERT INTO `reeders` (`id_reeder`, `name`, `surname`, `date_of_birth`, `address`, `email`) VALUES
-(12, 'tttt', 'tttt', 'tttt', 'tttt', 'tttt'),
 (13, 'Polina', 'Nalivayko', '28.04.2001', 'Minsk', 'nalivayko0428@gmail.com'),
 (17, 'Ivan', 'Ivanov', '12.12.2012', 'minsk', 'ivanov@gmail.com'),
-(19, 'Van', 'Ivanov', '12.12.2012', 'minsk', 'ivanov11@gmail.com'),
-(20, 'Vanya', '11', '12.12.2012', 'minsk', 'ivanov111@gmail.com');
+(21, 'Johnny', 'Depp', '12.12.1967', 'LA', 'CV@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -169,12 +157,9 @@ CREATE TABLE `rent` (
 --
 
 INSERT INTO `rent` (`id_rent`, `id_book`, `id_reeder`, `first_date`, `last_date`, `fine`, `completed`) VALUES
-(6, 20, 13, '12-29-2021', '01-28-2022', '0', 'completed'),
-(7, 20, 13, '12-31-2021', '01-30-2022', '0', 'completed'),
 (9, 26, 13, '01-13-2022', '02-12-2022', '0', '0'),
-(10, 22, 13, '01-13-2021', '02-12-2021', '0', '0'),
-(12, 26, 13, '01-19-2022', '02-18-2022', '0', 'completed'),
-(14, 50, 13, '01-20-2022', '02-19-2022', '0', 'completed');
+(10, 20, 13, '01-13-2021', '02-12-2021', '0', '0'),
+(12, 26, 13, '01-19-2022', '02-18-2022', '0', 'completed');
 
 --
 -- Индексы сохранённых таблиц
@@ -234,13 +219,13 @@ ALTER TABLE `rent`
 -- AUTO_INCREMENT для таблицы `books`
 --
 ALTER TABLE `books`
-  MODIFY `id_book` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
+  MODIFY `id_book` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 
 --
 -- AUTO_INCREMENT для таблицы `book_genre`
 --
 ALTER TABLE `book_genre`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT для таблицы `genres`
@@ -258,13 +243,13 @@ ALTER TABLE `genres2`
 -- AUTO_INCREMENT для таблицы `reeders`
 --
 ALTER TABLE `reeders`
-  MODIFY `id_reeder` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_reeder` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT для таблицы `rent`
 --
 ALTER TABLE `rent`
-  MODIFY `id_rent` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_rent` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
