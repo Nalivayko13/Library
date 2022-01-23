@@ -60,11 +60,27 @@ func Home(AllBooks []dao.Book, limit, page int) []dao.Book {
 	dao.Get_booksWithPage_fronDB(&AllBooks,limit, page)
 	if limit==0 || page==0 {
 	dao.Get_books_fronDB(&AllBooks)
-	log.Println("this is all books")
-	}
-	for i,_:= range AllBooks{
-		AllBooks[i].Genre = dao.Get_Genre_fromDB(AllBooks[i].IdBook)
+		log.Println("this is all books")
 	}
 
+	args := make([]interface{}, len(AllBooks))
+	for i, _ := range AllBooks {
+		args[i] = AllBooks[i].IdBook
+	}
+	fmt.Println("это массив айди", args)
+	//запрос в бд для получения жанров по всем айдиникам сразу
+	var gen []dao.Genre
+	gen=dao.Get_allGenre_fromDB(args)
+	for i,_:= range args {
+		for j, _ := range gen {
+		g, _ := strconv.Atoi(gen[j].IdBook)
+			if AllBooks[i].IdBook == g {
+				AllBooks[i].Genre=append(AllBooks[i].Genre,gen[j])
+				fmt.Println(AllBooks[i].Genre)
+			}
+		}
+
+	}
+	fmt.Println(AllBooks)
 	return AllBooks
 }

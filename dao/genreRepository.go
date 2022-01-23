@@ -3,15 +3,18 @@ package dao
 import (
 	"fmt"
 	"log"
+	"strings"
 )
 type Genre_to_Book struct {
 	IdGenre int `json:"id_genre"`
 	IdBook int `json:"id_book"`
 }
 type Genre struct {
+	IdBook string `json:"id_book,omitempty"`
 	IdGenre int `json:"id_genre"`
 	Name string `json:"name,omitempty"`
 }
+type Genres []Genre
 
 func Save_BookGenre_toDB(IdBook int,genre Genre) {
 	db := openDB()
@@ -42,6 +45,29 @@ func Get_Genre_fromDB(IdBook int) []Genre{
 		}
 		Gen = append(Gen, g)
 	}
+	return Gen
+}
+
+func Get_allGenre_fromDB(IdBook []interface{}) []Genre{
+	db := openDB()
+	defer db.Close()
+	stmt := `SELECT book_genre.id_book, book_genre.id_genre, genres2.name FROM genres2 JOIN book_genre ON genres2.id_genre=book_genre.id_genre AND book_genre.id_book IN (?` + strings.Repeat(",?", len(IdBook)-1) + `)`
+	res1, err := db.Query(stmt, IdBook...)
+	if err!=nil{
+		panic(err)
+	}
+
+	var Gen []Genre
+	for res1.Next(){
+			var g Genre
+			err = res1.Scan(&g.IdBook,&g.IdGenre, &g.Name)
+			if err != nil {
+				panic(err)
+			}
+			Gen = append(Gen, g)
+
+	}
+	fmt.Println("ЭТО МАССИВ ЖАНРОВ",Gen)
 	return Gen
 }
 
