@@ -35,6 +35,7 @@ func NewSaveBookController(w http.ResponseWriter, r *http.Request) {
 		b, _ := json.Marshal(fmt.Sprintf("Error: %s",err1))
 		//json.NewEncoder(w).Encode(b)
 		w.Write(b)
+		log.Println(w, http.StatusBadRequest)
 	}
 }
 

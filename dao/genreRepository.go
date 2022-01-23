@@ -29,6 +29,21 @@ func Save_BookGenre_toDB(IdBook int,genre Genre) {
 	defer insert.Close()
 
 }
+
+func Save_AllBookGenre_toDB(gen []interface{}) { //можно ли сделать одним запросом?
+	db := openDB()
+	defer db.Close()
+	stmt :=`INSERT INTO book_genre (id_book, id_genre) VALUES (?` + strings.Repeat(",?", len(gen)-1) + `)`
+	res1, err := db.Query(stmt,gen...)
+
+	if err != nil {
+		log.Println(err)
+	}
+	fmt.Println(res1)
+	defer res1.Close()
+
+}
+
 func Get_Genre_fromDB(IdBook int) []Genre{
 	db := openDB()
 	defer db.Close()

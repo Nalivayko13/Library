@@ -48,10 +48,13 @@ func SaveBook(book *dao.Book) error{
 		log.Fatal(err4)
 	}
     book.IdBook=dao.Save_book_toDB(*book)
-	for _, genre := range book.Genre {
-		//genre.BookName=book.Name
-		dao.Save_BookGenre_toDB(book.IdBook,genre)
+	if book.IdBook==-1{
+		return errors.New("Something wrong")
 	}
+	for i, _ := range book.Genre {
+		dao.Save_BookGenre_toDB(book.IdBook,book.Genre[i])
+	}
+
 	return nil
 }
 
